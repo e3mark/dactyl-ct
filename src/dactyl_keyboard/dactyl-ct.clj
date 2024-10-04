@@ -19,6 +19,25 @@
 (def nrows 5)
 (def ncols 6)
 
+;////////////////
+; bof option based on https://www.reddit.com/r/MechanicalKeyboards/comments/9od8x9/modification_dactyl_manuform_offset_measurement/
+;; (def α (/ π 16))                        ; curvature of the columns
+;; (def β (/ π 40))                        ; curvature of the rows
+;; (def centerrow (- nrows 3))             ; controls front-back tilt
+;; (def centercol 3)                       ; controls left-right tilt / tenting (higher number is more tenting)
+;; (def tenting-angle (/ π 15))            ; or, change this for more precise tenting control
+;; ;(def column-style
+;; ;  (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
+;; (def column-style :orthographic)
+
+;; (defn column-offset [column] (cond
+;;   (= column 2) [0 0 -3] ;[0 2.82 -4.5]
+;;   (>= column 4) [0 -5 3] ;[0 -12 5.64]            ; original [0 -5.8 5.64]
+;;   :else [0 0 0]))
+; eof option
+;///////////////
+
+;////////////////bof default
 (def α (/ π 12))                        ; curvature of the columns
 (def β (/ π 36))                        ; curvature of the rows
 (def centerrow (- nrows 3))             ; controls front-back tilt
@@ -26,12 +45,12 @@
 (def tenting-angle (/ π 12))            ; or, change this for more precise tenting control
 (def column-style 
   (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
-; (def column-style :fixed)
 
 (defn column-offset [column] (cond
   (= column 2) [0 2.82 -4.5]
   (>= column 4) [0 -12 5.64]            ; original [0 -5.8 5.64]
   :else [0 0 0]))
+;/////////////// eof default
 
 (def thumb-offsets [6 -3 7])
 
@@ -307,7 +326,7 @@
        (rotate (deg2rad -30) [0 1 0])
        (rotate (deg2rad  13) [0 0 1])
        (translate thumborigin)
-       (translate [-18 -10 5])
+       (translate [-18 -10 6])
        ))
 (defn thumb-tl-place [shape]
   (->> shape
@@ -315,14 +334,14 @@
        (rotate (deg2rad -35) [0 1 0])
        (rotate (deg2rad  17) [0 0 1])
        (translate thumborigin)
-       (translate [-33 -15 -6])))
+       (translate [-33 -15 -4])))
 (defn thumb-ml-place [shape]
   (->> shape
        (rotate (deg2rad  9) [1 0 0])
        (rotate (deg2rad -42) [0 1 0])
        (rotate (deg2rad  23) [0 0 1])
        (translate thumborigin)
-       (translate [-45 -22 -19])))
+       (translate [-45 -22 -15.5])))
 
 (defn thumb-1x-layout [shape]
   (union
@@ -435,8 +454,8 @@
 (defn bottom-hull [& p]
   (hull p (bottom 0.001 p)))
 
-(def left-wall-x-offset 10)
-(def left-wall-z-offset  3)
+(def left-wall-x-offset 0);orig 10
+(def left-wall-z-offset  0);orig 3
 
 (defn left-key-position [row direction]
   (map - (key-position 0 row [(* mount-width -0.5) (* direction mount-height 0.5) 0]) [left-wall-x-offset 0 left-wall-z-offset]) )
@@ -492,6 +511,7 @@
                                            (key-place 0 (dec y) web-post-bl)
                                            (left-key-place y        1 web-post)
                                            (left-key-place (dec y) -1 web-post))))
+
    (wall-brace (partial key-place 0 0) 0 1 web-post-tl (partial left-key-place 0 1) 0 1 web-post)
    (wall-brace (partial left-key-place 0 1) 0 1 web-post (partial left-key-place 0 1) -1 0 web-post)
    ; front wall
