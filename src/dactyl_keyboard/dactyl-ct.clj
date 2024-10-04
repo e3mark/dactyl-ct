@@ -66,7 +66,8 @@
   :else [0 0 0]))
 ;/////////////// eof default
 
-(def thumb-offsets [6 -3 7])
+;(def thumb-offsets [6 -3 7])-original
+(def thumb-offsets [8 -3 7])
 
 (def keyboard-z-offset 9)               ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
 
