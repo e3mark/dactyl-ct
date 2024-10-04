@@ -19,22 +19,29 @@
 (def nrows 5)
 (def ncols 6)
 
+
+; dactyl-cc curve
+;; constexpr double kDColumnRadius = 55;
+;; constexpr double kAColumnRadius = 70;
+;; constexpr double kSColumnRadius = 65;
+;; constexpr double kGColumnRadius = 65;
+;; constexpr double kFColumnRadius = 70;
+;; constexpr double kCapsColumnRadius = 60;
+
 ;////////////////
-; bof option based on https://www.reddit.com/r/MechanicalKeyboards/comments/9od8x9/modification_dactyl_manuform_offset_measurement/
+; bof rc2 based on https://www.reddit.com/r/MechanicalKeyboards/comments/9od8x9/modification_dactyl_manuform_offset_measurement/
 ;; (def α (/ π 16))                        ; curvature of the columns
 ;; (def β (/ π 40))                        ; curvature of the rows
 ;; (def centerrow (- nrows 3))             ; controls front-back tilt
 ;; (def centercol 3)                       ; controls left-right tilt / tenting (higher number is more tenting)
 ;; (def tenting-angle (/ π 15))            ; or, change this for more precise tenting control
-;; ;(def column-style
-;; ;  (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
-;; (def column-style :orthographic)
+;; (def column-style :standard)
 
 ;; (defn column-offset [column] (cond
 ;;   (= column 2) [0 0 -3] ;[0 2.82 -4.5]
 ;;   (>= column 4) [0 -5 3] ;[0 -12 5.64]            ; original [0 -5.8 5.64]
 ;;   :else [0 0 0]))
-; eof option
+; eof rc2
 ;///////////////
 
 ;////////////////bof default
@@ -43,11 +50,18 @@
 (def centerrow (- nrows 3))             ; controls front-back tilt
 (def centercol 2)                       ; controls left-right tilt / tenting (higher number is more tenting)
 (def tenting-angle (/ π 12))            ; or, change this for more precise tenting control
-(def column-style 
-  (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
+;(def column-style 
+;  (if (> nrows 5) :orthographic :standard))  ; options include :standard, :orthographic, and :fixed
+(def column-style :standard)
+
+;; (defn column-offset [column] (cond
+;;   ;(= column 2) [0 2.82 -4.5];third column, starts in index 0
+;;   (= column 2) [0 0 -4.5] ;[0 2.82 -4.5]
+;;   (>= column 4) [0 -5.8 5.64]            ; original [0 -5.8 5.64]
+;;   :else [0 0 0]))
 
 (defn column-offset [column] (cond
-  (= column 2) [0 2.82 -4.5]
+  (= column 2) [0 0 -4.5]
   (>= column 4) [0 -12 5.64]            ; original [0 -5.8 5.64]
   :else [0 0 0]))
 ;/////////////// eof default
