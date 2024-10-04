@@ -641,15 +641,30 @@
    (union (cylinder [bottom-radius top-radius] height)
           (translate [0 0 (/ height 2)] (sphere top-radius))))
 
+;; (defn screw-insert [column row shape height] 
+;;   (let [shift-right   (= column lastcol)
+;;         shift-left    (= column 0)
+;;         shift-up      (and (not (or shift-right shift-left)) (= row 0))
+;;         shift-down    (and (not (or shift-right shift-left)) (>= row lastrow))
+;;         position      (if shift-up     (key-position column row (map + (wall-locate2  0  0.25) [0 (/ mount-height 2) 0]))
+;;                        (if shift-down  (key-position column row (map - (wall-locate2  0 -0.15) [0 (/ mount-height 2) 0]))
+;;                         (if shift-left (map + (left-key-position row 0) (wall-locate3 -0.35 0)) 
+;;                                        (key-position column row (map + (wall-locate2  0.08  0) [(/ mount-width 2) 0 0])))))
+;;         ]
+;;     (translate [(first position) (second position) (/ height 2)] shape)
+;;   ))
+
 (defn screw-insert [column row shape height] 
   (let [shift-right   (= column lastcol)
         shift-left    (= column 0)
         shift-up      (and (not (or shift-right shift-left)) (= row 0))
         shift-down    (and (not (or shift-right shift-left)) (>= row lastrow))
-        position      (if shift-up     (key-position column row (map + (wall-locate2  0  0.25) [0 (/ mount-height 2) 0]))
-                       (if shift-down  (key-position column row (map - (wall-locate2  0 -0.15) [0 (/ mount-height 2) 0]))
-                        (if shift-left (map + (left-key-position row 0) (wall-locate3 -0.35 0)) 
-                                       (key-position column row (map + (wall-locate2  0.08  0) [(/ mount-width 2) 0 0])))))
+        shift-x1      (= column lastcol)
+        position      (if shift-up     (key-position column row (map + (wall-locate2  0  -0.25) [0 (/ mount-height 2) 0]))
+                        (if shift-x1  (key-position column row (map - (wall-locate2  2 6.25) [0 (/ mount-height 2) 0]))
+                          (if shift-down  (key-position column row (map - (wall-locate2  0.35 0.2) [0 (/ mount-height 2) 0]))
+                            (if shift-left (map + (left-key-position row 0) (wall-locate3 -0.25 0.15)) 
+                                          (key-position column row (map + (wall-locate2  -0.15  2) [(/ mount-width 2) 0 0]))))))
         ]
     (translate [(first position) (second position) (/ height 2)] shape)
   ))
@@ -657,9 +672,11 @@
 (defn screw-insert-all [shape height]
   (union (screw-insert 0 0                shape height)
          (screw-insert 0 (- lastrow 1)    shape height)
-         (screw-insert 2 lastrow          shape height)
-         (screw-insert 3 0                shape height)
-         (screw-insert lastcol 1          shape height)
+         (screw-insert 0 (+ lastrow 1.25)    shape height)
+         (screw-insert 3.4 lastrow          shape height)
+         (screw-insert 3.30 0                shape height)
+         (screw-insert lastcol 0.4          shape height)
+         (screw-insert lastcol 4          shape height)
   ))
 
 (defn screw-insert-all-shapes [bottom-radius top-radius height]
