@@ -12,7 +12,7 @@ The Dactyl-Manuform is a fork of the [Dactyl](https://github.com/adereth/dactyl-
 
 ### Cute-Thumb-Dactyl
 
-File: [`mini_thumb_dactyl.clj`](src/dactyl_keyboard/mini_thumb_dactyl.clj)
+File: [`mini_thumb_dactyl.clj`](src/dactyl_keyboard/dactyl-ct.clj)
 
 I'm comfortable with the concave curve of Dactyl-ManuForm keyboard. But I don't need so many thumb keys. This version reduces thumb keys to three on each hand.
 
