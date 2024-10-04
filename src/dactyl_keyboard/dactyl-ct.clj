@@ -74,7 +74,7 @@
 
 (def sa-profile-key-height 12.7)
 
-(def plate-thickness 4)
+(def plate-thickness 5)
 (def mount-width (+ keyswitch-width 3))
 (def mount-height (+ keyswitch-height 3))
 
@@ -611,10 +611,10 @@
         shift-left    (= column 0)
         shift-up      (and (not (or shift-right shift-left)) (= row 0))
         shift-down    (and (not (or shift-right shift-left)) (>= row lastrow))
-        position      (if shift-up     (key-position column row (map + (wall-locate2  0  1) [0 (/ mount-height 2) 0]))
-                       (if shift-down  (key-position column row (map - (wall-locate2  0 -1) [0 (/ mount-height 2) 0]))
-                        (if shift-left (map + (left-key-position row 0) (wall-locate3 -1 0)) 
-                                       (key-position column row (map + (wall-locate2  1  0) [(/ mount-width 2) 0 0])))))
+        position      (if shift-up     (key-position column row (map + (wall-locate2  0  0.25) [0 (/ mount-height 2) 0]))
+                       (if shift-down  (key-position column row (map - (wall-locate2  0 -0.15) [0 (/ mount-height 2) 0]))
+                        (if shift-left (map + (left-key-position row 0) (wall-locate3 -0.35 0)) 
+                                       (key-position column row (map + (wall-locate2  0.08  0) [(/ mount-width 2) 0 0])))))
         ]
     (translate [(first position) (second position) (/ height 2)] shape)
   ))
@@ -699,6 +699,14 @@
     )
   ))
 
+
+(def usb-holder-ref (key-position 0 0 (map - (wall-locate2  0  -1) [0 (/ mount-height 2) 0])))
+
+(def usb-holder-position (map + [17 19.3 4] [(first usb-holder-ref) (second usb-holder-ref) 2]))
+;(def usb-holder-cube   (cube 15 12 2))
+;(def usb-holder-space  (translate (map + usb-holder-position [0 (* -1 wall-thickness) 1]) usb-holder-cube))
+(def usb-holder-holder (translate usb-holder-position (cube 29.0, 20.0, 12.5)))
+
 (def model-right (difference 
                    (union
                     key-holes
@@ -707,15 +715,16 @@
                     (color [40/255 223/255 175/255 1] thumb-connectors )
                     (difference (union (color [240/255 23/255 175/255 1] case-walls )
                                        screw-insert-outers 
-                                       arduino-holder
+                                       ;arduino-holder
                                        )
                                 ; rj9-space 
-                                usb-holder-hole
-                                reset-button-hole
-                                cable-hole
+                                ;; usb-holder-hole
+                                ;; reset-button-hole
+                                ;; cable-hole
+                                usb-holder-holder
                                 (translate [0 0 -0.01] screw-insert-holes) )
                     ; rj9-holder
-                    reset-button-holder
+                    ;reset-button-holder
                     ; wire-posts
                     ; thumbcaps
                     ; caps
