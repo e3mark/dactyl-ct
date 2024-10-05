@@ -67,7 +67,7 @@
 ;/////////////// eof default
 
 ;(def thumb-offsets [6 -3 7])-original
-(def thumb-offsets [8 -3 7])
+(def thumb-offsets [12 -3 7])
 
 (def keyboard-z-offset 9)               ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
 
@@ -113,6 +113,7 @@
 (def mount-height (+ keyswitch-height 3))
 
 
+;//bof backup from v1
 ;; (def retention-tab-thickness 1.5)
 ;; (def retention-tab-hole-thickness (- plate-thickness retention-tab-thickness))
 
@@ -145,16 +146,12 @@
 ;;            (->> plate-half
 ;;                 (mirror [1 0 0])
 ;;                 (mirror [0 1 0])))))
+;//eof backup from v1
 
 ;//bof test
 (def create-side-nubs? false)
-;(def plate-thickness 4)
-;(def side-nub-thickness 4)
 (def retention-tab-thickness 1.5)
 (def retention-tab-hole-thickness (- plate-thickness retention-tab-thickness))
-
-;(def mount-width (+ keyswitch-width 4.2))
-;(def mount-height (+ keyswitch-height 2.7))
 
 (def single-plate
   (let [top-wall (->> (cube (+ keyswitch-width 3) 1.5 plate-thickness)
@@ -523,8 +520,8 @@
 (defn bottom-hull [& p]
   (hull p (bottom 0.001 p)))
 
-(def left-wall-x-offset 0);orig 10
-(def left-wall-z-offset  0);orig 3
+(def left-wall-x-offset 3);orig 10
+(def left-wall-z-offset 0);orig 3
 
 (defn left-key-position [row direction]
   (map - (key-position 0 row [(* mount-width -0.5) (* direction mount-height 0.5) 0]) [left-wall-x-offset 0 left-wall-z-offset]) )
@@ -810,7 +807,8 @@
 
 (def usb-holder-ref (key-position 0 0 (map - (wall-locate2  0  -1) [0 (/ mount-height 2) 0])))
 
-(def usb-holder-position (map + [17 19.3 4] [(first usb-holder-ref) (second usb-holder-ref) 2]))
+;(def usb-holder-position (map + [17 19.3 4] [(first usb-holder-ref) (second usb-holder-ref) 2]))
+(def usb-holder-position (map + [13 19.3 4] [(first usb-holder-ref) (second usb-holder-ref) 2]))
 ;(def usb-holder-cube   (cube 15 12 2))
 ;(def usb-holder-space  (translate (map + usb-holder-position [0 (* -1 wall-thickness) 1]) usb-holder-cube))
 (def usb-holder-holder (translate usb-holder-position (cube 29.0, 20.0, 12.5)))
