@@ -103,8 +103,8 @@
 ;; Switch Hole ;;
 ;;;;;;;;;;;;;;;;;
 
-(def keyswitch-height 14.4) ;; Was 14.1, then 14.25
-(def keyswitch-width 14.4)
+(def keyswitch-height 14.2) ;; Was 14.1, then 14.25, then 14.4 in v1
+(def keyswitch-width 14.2);then 14.4 in v1
 
 (def sa-profile-key-height 12.7)
 
@@ -113,7 +113,49 @@
 (def mount-height (+ keyswitch-height 3))
 
 
-; e3mark: oct 4 2024 - updated the side-nub from (cylinder 1 2.75) to (cylinder 0.5 2.75) to make way for post processing paint
+;; (def retention-tab-thickness 1.5)
+;; (def retention-tab-hole-thickness (- plate-thickness retention-tab-thickness))
+
+
+;; ; e3mark: oct 4 2024 - updated the side-nub from (cylinder 1 2.75) to (cylinder 0.5 2.75) to make way for post processing paint
+;; (def single-plate
+;;   (let [top-wall (->> (cube (+ keyswitch-width 3) 1.5 plate-thickness)
+;;                       (translate [0
+;;                                   (+ (/ 1.5 2) (/ keyswitch-height 2))
+;;                                   (/ plate-thickness 2)]))
+;;         left-wall (->> (cube 1.5 (+ keyswitch-height 3) plate-thickness)
+;;                        (translate [(+ (/ 1.5 2) (/ keyswitch-width 2))
+;;                                    0
+;;                                    (/ plate-thickness 2)]))
+;;         side-nub (->> (binding [*fn* 30] (cylinder 0.5 2.75))
+;;                       (rotate (/ π 2) [1 0 0])
+;;                       (translate [(+ (/ keyswitch-width 2)) 0 1])
+;;                       (hull (->> (cube 1.5 1.75 plate-thickness)
+;;                                  (translate [(+ (/ 1.5 2) (/ keyswitch-width 2))
+;;                                              0
+;;                                              (/ plate-thickness 2)]))))
+;;         top-nub (->> (cube 5 5 retention-tab-hole-thickness)
+;;                      (translate [(+ (/ keyswitch-width 2.5)) 0 (/ retention-tab-hole-thickness 2)]))
+;;         top-nub-pair (union top-nub
+;;                             (->> top-nub
+;;                                  (mirror [1 0 0])
+;;                                  (mirror [0 1 0])))
+;;         plate-half (union top-wall left-wall (with-fn 100 side-nub))]
+;;     (union plate-half
+;;            (->> plate-half
+;;                 (mirror [1 0 0])
+;;                 (mirror [0 1 0])))))
+
+;//bof test
+(def create-side-nubs? false)
+;(def plate-thickness 4)
+;(def side-nub-thickness 4)
+(def retention-tab-thickness 1.5)
+(def retention-tab-hole-thickness (- plate-thickness retention-tab-thickness))
+
+;(def mount-width (+ keyswitch-width 4.2))
+;(def mount-height (+ keyswitch-height 2.7))
+
 (def single-plate
   (let [top-wall (->> (cube (+ keyswitch-width 3) 1.5 plate-thickness)
                       (translate [0
@@ -123,18 +165,30 @@
                        (translate [(+ (/ 1.5 2) (/ keyswitch-width 2))
                                    0
                                    (/ plate-thickness 2)]))
-        side-nub (->> (binding [*fn* 30] (cylinder 0.5 2.75))
+        side-nub (->> (binding [*fn* 30] (cylinder 1 2.75))
                       (rotate (/ π 2) [1 0 0])
                       (translate [(+ (/ keyswitch-width 2)) 0 1])
-                      (hull (->> (cube 1.5 1.75 plate-thickness)
+                      (hull (->> (cube 1.5 2.75 side-nub-thickness)
                                  (translate [(+ (/ 1.5 2) (/ keyswitch-width 2))
                                              0
-                                             (/ plate-thickness 2)]))))
-        plate-half (union top-wall left-wall (with-fn 100 side-nub))]
-    (union plate-half
-           (->> plate-half
-                (mirror [1 0 0])
-                (mirror [0 1 0])))))
+                                             (/ side-nub-thickness 2)])))
+                      (translate [0 0 (- plate-thickness side-nub-thickness)]))
+        plate-half (union top-wall left-wall (if create-side-nubs? (with-fn 100 side-nub)))
+        top-nub (->> (cube 5 5 retention-tab-hole-thickness)
+                     (translate [(+ (/ keyswitch-width 2.5)) 0 (/ retention-tab-hole-thickness 2)]))
+        top-nub-pair (union top-nub
+                            (->> top-nub
+                                 (mirror [1 0 0])
+                                 (mirror [0 1 0])))]
+    (difference
+     (union plate-half
+            (->> plate-half
+                 (mirror [1 0 0])
+                 (mirror [0 1 0])))
+     (->>
+      top-nub-pair
+      (rotate (/ π 2) [0 0 1])))))
+;//eof test
 
 ;;;;;;;;;;;;;;;;
 ;; SA Keycaps ;;
@@ -279,7 +333,7 @@
 ;; Web Connectors ;;
 ;;;;;;;;;;;;;;;;;;;;
 
-(def web-thickness 3.5)
+(def web-thickness 5);v1 3.5
 (def post-size 0.1)
 (def web-post (->> (cube post-size post-size web-thickness)
                    (translate [0 0 (+ (/ web-thickness -2)
