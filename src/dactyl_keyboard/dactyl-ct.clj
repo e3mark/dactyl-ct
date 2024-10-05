@@ -74,9 +74,9 @@
 (def extra-width 2)                   ; extra space between the base of keys; original= 2, then in v1 2.5
 (def extra-height 0.5)                  ; original= 0.5, in v1 1.0
 
-(def wall-z-offset -5)                 ; length of the first downward-sloping part of the wall (negative)
+(def wall-z-offset -1)                 ; length of the first downward-sloping part of the wall (negative)
 (def wall-xy-offset 4)                  ; offset in the x and/or y direction for the first downward-sloping part of the wall (negative)
-(def wall-thickness 3.5)                  ; wall thickness parameter; originally 5
+(def wall-thickness 3)                  ; wall thickness parameter; originally 5
 
 ;; Settings for column-style == :fixed 
 ;; The defaults roughly match Maltron settings
@@ -398,16 +398,16 @@
   (->> shape
        (rotate (deg2rad  10) [1 0 0])
        (rotate (deg2rad -35) [0 1 0])
-       (rotate (deg2rad  17) [0 0 1])
+       (rotate (deg2rad  13) [0 0 1])
        (translate thumborigin)
-       (translate [-33 -15 -4])))
+       (translate [-33 -13 -4])))
 (defn thumb-ml-place [shape]
   (->> shape
        (rotate (deg2rad  9) [1 0 0])
        (rotate (deg2rad -42) [0 1 0])
-       (rotate (deg2rad  23) [0 0 1])
+       (rotate (deg2rad  13) [0 0 1])
        (translate thumborigin)
-       (translate [-45 -22 -15.5])))
+       (translate [-45 -16  -15.5])))
 
 (defn thumb-1x-layout [shape]
   (union
