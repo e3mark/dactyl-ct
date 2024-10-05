@@ -71,12 +71,12 @@
 
 (def keyboard-z-offset 9)               ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
 
-(def extra-width 2.5)                   ; extra space between the base of keys; original= 2
-(def extra-height 1.0)                  ; original= 0.5
+(def extra-width 2)                   ; extra space between the base of keys; original= 2, then in v1 2.5
+(def extra-height 0.5)                  ; original= 0.5, in v1 1.0
 
 (def wall-z-offset -5)                 ; length of the first downward-sloping part of the wall (negative)
 (def wall-xy-offset 4)                  ; offset in the x and/or y direction for the first downward-sloping part of the wall (negative)
-(def wall-thickness 2)                  ; wall thickness parameter; originally 5
+(def wall-thickness 3.5)                  ; wall thickness parameter; originally 5
 
 ;; Settings for column-style == :fixed 
 ;; The defaults roughly match Maltron settings
